@@ -8,7 +8,7 @@ group by g.gengre_name;
 --2.количество треков, вошедших в альбомы 2019-2020 годов;
 select count(*) Количество from songs s
 left join albums a on s.album = a.album_id
-where DATE_PART('year', a.album_year_of_issue::date) between 2019 and 2020;;
+where DATE_PART('year', a.album_year_of_issue::date) between 2019 and 2020;
 
 --3.средняя продолжительность треков по каждому альбому;
 
@@ -48,12 +48,12 @@ left join singers s on s.singer_id = sa.singer_id
 left join singersgenres sg on sg.singer_id = s.singer_id 
 left join genres g on g.genre_id = sg.genre_id 
 group by a.album_name 
-having count(distinct g.gengre_name) > 1
+having count(distinct g.gengre_name) > 1;
 
 --7. наименование треков, которые не входят в сборники;
 select s.song_name, c.collection_id  from songs s 
 left join collectionssongs c on c.song_id = s.song_id 
-where c.collection_id is null 
+where c.collection_id is null;
 
 --8. исполнителя(-ей), написавшего самый короткий по продолжительности трек (теоретически таких треков может быть несколько);
 -- select min(song_duration) from songs s
@@ -63,7 +63,7 @@ left join albums a on s.album = a.album_id
 left join singersalbums sa on a.album_id = sa.album_id 
 left join singers s2 on s2.singer_id = sa.singer_id
 where s.song_duration = (select min(song_duration) from songs s
-)
+);
 
 --9. название альбомов, содержащих наименьшее количество треков.
 select a.album_name, count(*) from albums a
@@ -74,4 +74,4 @@ having count(*) =
 				left join songs s on s.album = a.album_id 
 				group by a.album_name
 				order by count(*) 
-				limit 1)
+				limit 1);
